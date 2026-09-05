@@ -1,2 +1,5 @@
 @HostAddress = http://localhost:5053
 
+### GET - Greeting count
+GET {{HostAddress}}/api/v1/greetings
+Accept: application/json
