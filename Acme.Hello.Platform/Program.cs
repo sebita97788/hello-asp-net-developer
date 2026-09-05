@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<IGreetingCounter, GreetingCounter>();
+builder.Services.AddValidation();
 
 var app = builder.Build();
 
