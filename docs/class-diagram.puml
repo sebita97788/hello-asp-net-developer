@@ -1,0 +1,89 @@
+@startuml
+
+package "Acme.Hello.Platform.Profiles.Domain.Model.ValueObjects" {
+  class PersonName <<readonly record struct>> {
+    +string FirstName
+    +string LastName
+    +string FullName
+    +{static} PersonName Anonymous
+  }
+}
+
+package "Acme.Hello.Platform.Profiles.Domain.Model.Entities" {
+  class Developer {
+    +Guid Id
+    +PersonName Name
+    +bool IsAnonymous
+    +string GetFullName()
+  }
+}
+
+package "Acme.Hello.Platform.Profiles.Domain.Services" {
+  interface IGreetingCounter {
+    +int PersonalizedCount
+    +int AnonymousCount
+    +int TotalCount
+    +void IncrementPersonalized()
+    +void IncrementAnonymous()
+  }
+}
+
+package "Acme.Hello.Platform.Profiles.Domain.Services.Internal" {
+  class GreetingCounter {
+    -int _personalizedCount
+    -int _anonymousCount
+    +int PersonalizedCount
+    +int AnonymousCount
+    +int TotalCount
+    +void IncrementPersonalized()
+    +void IncrementAnonymous()
+  }
+}
+
+package "Acme.Hello.Platform.Profiles.Interfaces.Rest.Assemblers" {
+  class DeveloperAssembler {
+    +static Developer ToEntityFromRequest(GreetDeveloperRequest request)
+  }
+  class GreetDeveloperAssembler {
+    +static GreetDeveloperResponse ToResponseFromEntity(Developer developer)
+  }
+}
+
+package "Acme.Hello.Platform.Profiles.Interfaces.Rest.Resources" {
+  class GreetDeveloperRequest {
+    +string? FirstName
+    +string? LastName
+  }
+  class GreetDeveloperResponse {
+    +Guid Id
+    +string FullName
+    +string Message
+  }
+  class GetGreetingCountResponse <<record>> {
+    +int GreetingCount
+    +int PersonalizedCount
+    +int AnonymousCount
+  }
+}
+
+package "Acme.Hello.Platform.Profiles.Interfaces.Rest" {
+  class GreetingEndpoints <<static>> {
+    +static IEndpointRouteBuilder MapGreetingEndpoints(this IEndpointRouteBuilder app)
+  }
+}
+
+Developer *-- "1" PersonName : contains
+GreetingCounter ..|> IGreetingCounter : implements
+
+DeveloperAssembler ..> GreetDeveloperRequest : uses
+DeveloperAssembler ..> Developer : creates
+GreetDeveloperAssembler ..> Developer : uses
+GreetDeveloperAssembler ..> GreetDeveloperResponse : creates
+
+GreetingEndpoints ..> IGreetingCounter : uses
+GreetingEndpoints ..> DeveloperAssembler : uses
+GreetingEndpoints ..> GreetDeveloperAssembler : uses
+GreetingEndpoints ..> GreetDeveloperRequest : uses
+GreetingEndpoints ..> GetGreetingCountResponse : creates
+
+@enduml
