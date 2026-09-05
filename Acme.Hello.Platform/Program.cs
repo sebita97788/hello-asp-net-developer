@@ -1,3 +1,4 @@
+using Acme.Hello.Platform.Profiles.Interfaces.Rest;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,5 +22,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapGreetingEndpoints();
 
 app.Run();
