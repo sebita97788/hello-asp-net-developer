@@ -3,3 +3,31 @@
 ### GET - Greeting count
 GET {{HostAddress}}/api/v1/greetings
 Accept: application/json
+
+### POST - Anonymous
+POST {{HostAddress}}/api/v1/greetings
+Content-Type: application/json
+
+{}
+
+### POST - Personalized
+POST {{HostAddress}}/api/v1/greetings
+Content-Type: application/json
+
+{ "firstName": "John", "lastName": "Doe" }
+
+### POST - Whitespace
+POST {{HostAddress}}/api/v1/greetings
+Content-Type: application/json
+
+{ "firstName": " John ", "lastName": " Doe " }
+
+### POST - Name too long (rejected)
+POST {{HostAddress}}/api/v1/greetings
+Content-Type: application/json
+
+{ "firstName": "A very long first name that exceeds the thirty five character limit", "lastName": "Doe" }
+
+### GET - Greeting count (reflects the 3 successful POSTs above, anonymous included)
+GET {{HostAddress}}/api/v1/greetings
+Accept: application/json
