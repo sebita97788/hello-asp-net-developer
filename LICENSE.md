@@ -1,6 +1,6 @@
 ﻿# MIT License
 
-Copyright © 2026 Open Source Application Development Team
+Copyright © 2026 Web Applications Developer Team
 
 Permission is hereby granted, free of charge, to any person getting a copy
 of this software and associated documentation files (the "Software"), to deal
